@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Números Primos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="primeNumber">2</div>
+    <script src="script.js"></script>
+</body>
+</html>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+}
+
+#primeNumber {
+    font-size: 10rem;
+    color: white;
+    font-family: Arial, sans-serif;
+}const primeDisplay = document.getElementById('primeNumber');
+let currentIndex = 0;
+
+// Lista de los primeros primos
+const primeNumbers = [2];
+
+// Función para verificar si un número es primo
+function isPrime(num) {
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false;
+    }
+    return num > 1;
+}
+
+// Función para obtener el siguiente número primo
+function getNextPrime() {
+    let nextPrime = primeNumbers[primeNumbers.length - 1] + 1;
+    while (!isPrime(nextPrime)) {
+        nextPrime++;
+    }
+    primeNumbers.push(nextPrime);
+}
+
+// Evento para detectar clicks izquierdo y derecho
+document.addEventListener('mousedown', function (event) {
+    // Click izquierdo
+    if (event.button === 0) {
+        currentIndex++;
+        if (currentIndex >= primeNumbers.length) {
+            getNextPrime();
+        }
+        primeDisplay.textContent = primeNumbers[currentIndex];
+    }
+    
+    // Click derecho
+    if (event.button === 2) {
+        currentIndex = Math.max(currentIndex - 1, 0);
+        primeDisplay.textContent = primeNumbers[currentIndex];
+    }
+});
+
+// Evitar que el menú contextual aparezca en el click derecho
+document.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+});
+
